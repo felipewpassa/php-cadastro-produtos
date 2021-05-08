@@ -16,7 +16,9 @@ include './../app/Libraries/Controller.php';
 </head>
 <body>
     <?php
+        include '../app/Views/header.php';
         $routes = new Route();
+        include '../app/Views/footer.php';
     ?>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
