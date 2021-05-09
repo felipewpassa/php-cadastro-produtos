@@ -19,7 +19,12 @@ include './../app/autoload.php'
         $routes = new Route();
         include '../app/Views/footer.php';
     ?>
-
+    <script type="text/javascript">
+        setTimeout(() => { 
+            var popupAlert = document.getElementById('popupAlert');
+            if (popupAlert) popupAlert.remove();
+        }, 3000);
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
     <script src="<?=URL?>/public/js/index.js"></script>
