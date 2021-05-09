@@ -8,6 +8,7 @@ class Database {
     private $password = 'root';
     private $dbname = 'dbcadastroprodutos';
     private $db;
+    private $statement;
 
     public function __construct() {
         $strConnection = 'mysql:host='.$this->host.';port='.$this->port.';dbname='.$this->dbname;
@@ -21,5 +22,32 @@ class Database {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
         }
+    }
+
+    public function query($sql) {
+        $this->statement = $this->db->prepare($sql);
+    }
+
+    public function bind($key, $value, $type = null) {
+        if (is_null($type))  {
+            switch(true):
+                case is_int($value):
+                    $type = PDO::PARAM_INT;
+                break;
+                case is_bool($value):
+                    $type = PDO::PARAM_BOOL;
+                break;
+                case is_null($value):
+                    $type = PDO::PARAM_NULL;
+                break;
+                default:
+                    $type = PDO::PARAM_STR;
+            endswitch;
+        }
+        $this->statement->bindValue($key, $value, $type);
+    }
+
+    public function executeSql() {
+        return $this->statement->execute();
     }
 }
