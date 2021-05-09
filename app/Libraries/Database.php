@@ -50,4 +50,9 @@ class Database {
     public function executeSql() {
         return $this->statement->execute();
     }
+
+    public function executeSqlWithResults() {
+        $this->executeSql();
+        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+    }
 }

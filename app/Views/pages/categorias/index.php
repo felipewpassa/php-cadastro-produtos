@@ -5,7 +5,11 @@
             <a href="<?=URL?>/categorias/cadastrar" class="btn btn-primary">Cadastrar</a>
         </div>
         <div class="card-body">
-            <p>Listar categorias aqui</p>
+            <ul class="list-group list-group-flush">
+                <?php foreach ($data['categorias'] as $categoria): ?>
+                    <li class="list-group-item"><?= $categoria->dsCategoria ?></li>
+                <?php endforeach ?> 
+            </ul>
         </div>
     </div>
 </div>

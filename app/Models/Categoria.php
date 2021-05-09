@@ -18,4 +18,9 @@ class Categoria {
             return false;
         }
     }
+
+    public function getAll() {
+        $this->db->query("SELECT dsCategoria FROM categoria");
+        return $this->db->executeSqlWithResults();
+    }
 }

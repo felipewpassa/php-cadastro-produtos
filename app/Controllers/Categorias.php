@@ -7,7 +7,10 @@ class Categorias extends Controller {
     }
 
     public function index() {
-        $this->view('pages/categorias/index');
+        $data = [
+            'categorias' => $this->categoriaModel->getAll()
+        ];
+        $this->view('pages/categorias/index', $data);
     }
 
     public function cadastrar() {
