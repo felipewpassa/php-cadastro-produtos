@@ -52,4 +52,15 @@ class Categoria {
             return false;
         }
     }
+
+    public function delete($idCategoria) {
+        $this->db->query("DELETE FROM categoria WHERE idCategoria = :idCategoria");
+        $this->db->bind("idCategoria", $idCategoria);
+
+        if ($this->db->executeSql()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

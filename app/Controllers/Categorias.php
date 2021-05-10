@@ -75,4 +75,17 @@ class Categorias extends Controller {
         }
         $this->view('pages/categorias/editar', $data);
     }
+
+    public function excluir($id) {
+        $id = filter_var($id, FILTER_VALIDATE_INT);
+        $method = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
+        if($id && $method == 'DELETE') {
+            var_dump($this->categoriaModel->delete($id));
+            if ($this->categoriaModel->delete($id)) {
+                var_dump(http_response_code(200));
+                return;
+            }
+        }
+        var_dump(http_response_code(404));
+    }
 }

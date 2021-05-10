@@ -19,7 +19,14 @@
                             <td><?= $categoria->idCategoria ?></td>
                             <td><?= substr($categoria->dsCategoria, 0, 30) ?></td>
                             <td>
-                                <a href="<?= URL.'/categorias/editar/'.$categoria->idCategoria ?>" class="btn btn-sm btn-warning">Editar</a>
+                                <ul class="list-inline">
+                                    <li class="list-inline-item">
+                                        <a href="<?= URL.'/categorias/editar/'.$categoria->idCategoria ?>" class="btn btn-sm btn-warning">Editar</a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <button onclick="confirmDelete(<?=$categoria->idCategoria?>)" class="btn btn-sm btn-danger">Excluir</button>
+                                    </li>
+                                </ul>
                             </td>
                         </tr> 
                     <?php endforeach ?> 
@@ -28,3 +35,42 @@
         </div>
     </div>
 </div>
+
+<script>
+    function confirmDelete(id) {
+        swal({
+            title: "Tem certeza?",
+            text: `Deseja excluir a categoria com id = ${id}`,
+            buttons: ["Cancelar", "Excluir"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) executeDelete(id);
+        });
+    }
+
+    function executeDelete(id) {
+        const request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                swal({
+                    title: "Sucesso",
+                    text: "A categoria foi excluida",
+                    icon: "success",
+                    button: "OK",
+                }).then(() => {
+                    window.location.href = "<?= URL.'/categorias' ?>";
+                });
+            } else {
+                swal({
+                    title: "Erro",
+                    text: "Não foi possivel excluir a categoria",
+                    icon: "warning",
+                    button: "OK",
+                });
+            }
+        };
+        request.open("DELETE", `<?= URL.'/categorias/excluir/'?>${id}`);
+        request.send();
+    }
+</script>
