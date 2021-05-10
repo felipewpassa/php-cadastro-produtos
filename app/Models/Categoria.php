@@ -20,7 +20,7 @@ class Categoria {
     }
 
     public function getAll() {
-        $this->db->query("SELECT dsCategoria FROM categoria");
+        $this->db->query("SELECT idCategoria, dsCategoria FROM categoria");
         return $this->db->executeSqlWithResults();
     }
 }
