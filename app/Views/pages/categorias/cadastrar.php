@@ -12,6 +12,7 @@
                     type="text" 
                     id="dsCategoria" 
                     name="dsCategoria" 
+                    maxlength="255"
                     value="<?= $data['dsCategoria'] ?>" 
                     class="form-control <?= $data['dsCategoriaErro'] ? 'is-invalid' : '' ?>">
                 
