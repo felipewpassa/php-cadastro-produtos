@@ -10,6 +10,7 @@
                     <tr>
                         <th>#</th>
                         <th>Descrição</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -17,6 +18,9 @@
                         <tr class="<?= $key%2!=0 ? 'table-light' : '' ?>">
                             <td><?= $categoria->idCategoria ?></td>
                             <td><?= substr($categoria->dsCategoria, 0, 30) ?></td>
+                            <td>
+                                <a href="<?= URL.'/categorias/editar/'.$categoria->idCategoria ?>" class="btn btn-sm btn-warning">Editar</button>
+                            </td>
                         </tr> 
                     <?php endforeach ?> 
                 </tbody>

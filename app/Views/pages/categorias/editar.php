@@ -1,0 +1,27 @@
+<div class="col-md-8 mx-auto p-5">
+    <div class="card">
+        <div class="card-header">
+            Editar categoria
+        </div>
+        <div class="card-body">
+        <?=Session::alert('Categoria')?>
+        <form name="categoria" method="POST" action="<?=URL?>/categorias/editar/<?= $data['idCategoria'] ?>" class="mt-2">
+            <div class="mb-3">
+                <label for="dsCategoria" class="form-label">*Descrição:</label>
+                <input 
+                    type="text" 
+                    id="dsCategoria" 
+                    name="dsCategoria" 
+                    maxlength="255"
+                    value="<?= $data['dsCategoria'] ?>" 
+                    class="form-control <?= $data['dsCategoriaErro'] ? 'is-invalid' : '' ?>">
+                
+                <div class="invalid-feedback">
+                    <?= $data['dsCategoriaErro'] ?>
+                </div>
+            </div>
+            <input type="submit" value="Editar" class="btn btn-primary">
+        </form>
+        </div>
+    </div>
+</div>

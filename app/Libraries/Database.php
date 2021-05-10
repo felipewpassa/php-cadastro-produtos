@@ -55,4 +55,9 @@ class Database {
         $this->executeSql();
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
+
+    public function executeSqlWithOneResult() {
+        $this->executeSql();
+        return $this->statement->fetch(PDO::FETCH_OBJ);
+    }
 }

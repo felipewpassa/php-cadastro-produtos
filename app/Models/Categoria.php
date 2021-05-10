@@ -34,4 +34,22 @@ class Categoria {
             return false;
         }
     }
+
+    public function getById($id) {
+        $this->db->query("SELECT idCategoria, dsCategoria FROM categoria WHERE idCategoria = :idCategoria");
+        $this->db->bind("idCategoria", $id);
+        return $this->db->executeSqlWithOneResult();
+    }
+
+    public function update($dados) {
+        $this->db->query("UPDATE categoria SET dsCategoria = :dsCategoria WHERE idCategoria = :idCategoria");
+        $this->db->bind("dsCategoria", $dados['dsCategoria']);
+        $this->db->bind("idCategoria", $dados['idCategoria']);
+
+        if ($this->db->executeSql()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
