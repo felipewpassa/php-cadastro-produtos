@@ -24,10 +24,14 @@ class Categorias extends Controller {
             if (in_array("", $form)) {
                 if (empty($form['dsCategoria'])) $data['dsCategoriaErro'] = "Preencha o campo descrição";
             } else {
-                if ($this->categoriaModel->save($data)) {
-                    Session::alert('Categoria', 'Categoria cadastrada com sucesso');
+                if (!$this->categoriaModel->isExists($data)) {
+                    if ($this->categoriaModel->save($data)) {
+                        Session::alert('Categoria', 'Categoria cadastrada com sucesso');
+                    } else {
+                        die("Erro ao salvar a categoria");
+                    }
                 } else {
-                    die("Erro ao salvar a categoria");
+                    $data['dsCategoriaErro'] = "Categoria já está cadastrada";
                 }
             }
         } else {

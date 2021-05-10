@@ -23,4 +23,15 @@ class Categoria {
         $this->db->query("SELECT idCategoria, dsCategoria FROM categoria");
         return $this->db->executeSqlWithResults();
     }
+
+    public function isExists($dados) {
+        $this->db->query("SELECT dsCategoria FROM categoria WHERE dsCategoria = :dsCategoria");
+        $this->db->bind("dsCategoria", $dados['dsCategoria']);
+
+        if ($this->db->executeSqlWithResults()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
