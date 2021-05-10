@@ -19,7 +19,7 @@
                             <td><?= $categoria->idCategoria ?></td>
                             <td><?= substr($categoria->dsCategoria, 0, 30) ?></td>
                             <td>
-                                <a href="<?= URL.'/categorias/editar/'.$categoria->idCategoria ?>" class="btn btn-sm btn-warning">Editar</button>
+                                <a href="<?= URL.'/categorias/editar/'.$categoria->idCategoria ?>" class="btn btn-sm btn-warning">Editar</a>
                             </td>
                         </tr> 
                     <?php endforeach ?> 
