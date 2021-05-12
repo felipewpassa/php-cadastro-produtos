@@ -5,7 +5,7 @@
         </div>
         <?=Session::alert('Produto')?>
         <div class="card-body">
-            <form name="categoria" method="POST" action="<?=URL?>/produtos/cadastrar">
+            <form name="categoria" method="POST" action="<?=URL?>/produtos/cadastrar" enctype="multipart/form-data">
                 <input id="nmProduto" name="nmProduto" type="text" placeholder="nmProduto"
                 class="form-control <?= $data['nmProdutoErro'] ? 'is-invalid' : '' ?>">
                 <div class="invalid-feedback">
@@ -26,14 +26,41 @@
                         </option>
                     <?php endforeach ?>
                 </select>
-
                 <div class="invalid-feedback">
                     <?= $data['idCategoriaErro'] ?>
                 </div>
 
-                <input type="submit" value="Salvar" class="btn btn-primary">
+                <div class="input-field mt-5">
+                    <table id="table_field">
+                        <tr>
+                            <td>Descricao</td>
+                            <td>Imagem</td>
+                            <td><input class="btn btn-primary" type="button" name="add" id="add" value="Adicionar"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <input type="submit" value="Salvar" class="btn btn-primary mt-5">
             </form>
 
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var html = `
+        <tr>
+            <td><input class="form-control" type="text" name="name[]"></td>
+            <td><input class="form-control" type="file" name="image[]"></td>
+            <td><input class="btn btn-danger" type="button" name="remove" id="remove" value="Remover"></td>
+        </tr>`;
+        $("#add").click(function() {
+            $("#table_field").append(html);
+        });
+        $("#table_field").on('click', '#remove', function() {
+            $(this).closest('tr').remove();
+        })
+    });
+
+</script>

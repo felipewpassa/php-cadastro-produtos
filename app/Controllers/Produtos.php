@@ -14,6 +14,7 @@ class Produtos extends Controller {
     public function cadastrar() {
         $form = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         $categorias = $this->categoriaModel->getAll();
+        $imagesMoved = array();
         if (isset($form)) {
             $data = [
                 'nmProduto' => trim($form['nmProduto']),
@@ -27,11 +28,30 @@ class Produtos extends Controller {
                 if (empty($form['dsProduto'])) $data['dsProdutoErro'] = "Preencha a descrição do produto";
                 if (empty($form['idCategoria'])) $data['idCategoriaErro'] = "Selecione uma categoria";
             } else {
-                
+                $upload = new Upload();
+                $arrayFileUpload = $upload->reArrayFiles($_FILES['image']);
+                foreach($arrayFileUpload as $key => $fileToUpload) {
+                    $upload->imagem($fileToUpload);
+                    if($upload->getResult()) {
+                        array_push($imagesMoved, $upload->getResult());
+                    } else {
+                        echo $upload->getError();
+                    }
+                }
+
                 if ($this->produtoModel->save($data)) {
+                    $lastInsertId = (int) $this->produtoModel->getLastInsertId();
+                    foreach($imagesMoved as $imageName) {
+                        $dataImage = [
+                            'dsImagem' => 'teste',
+                            'nomeDoArquivo' => $imageName,
+                            'idProduto' => $lastInsertId
+                        ];
+                        $this->produtoModel->saveImagemProduto($dataImage);
+                    }
                     Session::alert('Produto', 'Produto cadastrado com sucesso');
                 } else {
-                    die("Erro ao salvar a categoria");
+                    die("Erro ao salvar a produto");
                 }
             }
 

@@ -20,4 +20,21 @@ class Produto {
             return false;
         }
     }
+
+    public function getLastInsertId() {
+        return $this->db->lastInsertId();
+    }
+
+    public function saveImagemProduto($dados) {
+        $this->db->query("INSERT INTO imagem (dsImagem, nomeDoArquivo, idProduto) VALUE (:dsImagem, :nomeDoArquivo, :idProduto)");
+        $this->db->bind("dsImagem", $dados['dsImagem']);
+        $this->db->bind("nomeDoArquivo", $dados['nomeDoArquivo']);
+        $this->db->bind("idProduto", $dados['idProduto']);
+
+        if ($this->db->executeSql()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

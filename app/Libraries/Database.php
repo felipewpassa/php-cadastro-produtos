@@ -60,4 +60,8 @@ class Database {
         $this->executeSql();
         return $this->statement->fetch(PDO::FETCH_OBJ);
     }
+
+    public function lastInsertId() {
+        return $this->db->lastInsertId();
+    }
 }
