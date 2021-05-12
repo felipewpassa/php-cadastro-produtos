@@ -5,6 +5,7 @@ class Produtos extends Controller {
     public function __construct() {
         $this->produtoModel = $this->model('Produto');
         $this->categoriaModel = $this->model('Categoria');
+        $this->imagemModel = $this->model('Imagem');
     }
 
     public function index() {
@@ -67,5 +68,17 @@ class Produtos extends Controller {
             ];
         }
         $this->view('pages/produtos/cadastrar', $data);
+    }
+
+    public function excluirImagem($id) {
+        $id = filter_var($id, FILTER_VALIDATE_INT);
+        $method = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
+        if($id && $method == 'DELETE') {
+            if ($this->imagemModel->delete($id)) {
+                var_dump(http_response_code(200));
+                return;
+            }
+        }
+        var_dump(http_response_code(404));
     }
 }

@@ -29,6 +29,9 @@
                                         <?php foreach ($produto as $key => $imagem): ?>
                                             <div class="carousel-item <?= $key===0 ? 'active' : ''?>">
                                                 <img src="<?= URL.'/public/uploads/produtos/'.$imagem['nomeDoArquivo'] ?>" class="d-block w-100" alt="<?= $imagem['nomeDoArquivo'] ?>">
+                                                <button onclick="confirmDeleteImage(<?= $imagem['idImagem']?>)" class="btn btn-sm btn-light text-danger position-absolute top-0 end-0">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
                                             </div>
                                         <?php endforeach ?>
                                     </div>
@@ -41,3 +44,42 @@
         </div>
     </div>
 </div>
+
+<script>
+    function confirmDeleteImage(id) {
+        swal({
+            title: "Tem certeza?",
+            text: `Deseja excluir a imagem com id = ${id}`,
+            buttons: ["Cancelar", "Excluir"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) executeDeleteImage(id);
+        });
+    }
+
+    function executeDeleteImage(id) {
+        const request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                swal({
+                    title: "Sucesso",
+                    text: "A imagem foi excluida",
+                    icon: "success",
+                    button: "OK",
+                }).then(() => {
+                    window.location.href = "<?= URL.'/produtos' ?>";
+                });
+            } else {
+                swal({
+                    title: "Erro",
+                    text: "Não foi possivel excluir a imagem",
+                    icon: "warning",
+                    button: "OK",
+                });
+            }
+        };
+        request.open("DELETE", `<?= URL.'/produtos/excluirImagem/'?>${id}`);
+        request.send();
+    }
+</script>
