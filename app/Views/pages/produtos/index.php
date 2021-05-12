@@ -11,31 +11,39 @@
                         <th>#</th>
                         <th>Nome</th>
                         <th>Imagens</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($data['produtos'] as $key => $produto): ?>
-                        <tr class="<?= $key%2!=0 ? 'table-light' : '' ?>">
-                            <td><?= $key ?></td>
+                    <?php foreach ($data['produtos'] as $keyProduto => $produto): ?>
+                        <tr class="<?= $keyProduto%2!=0 ? 'table-light' : '' ?>">
+                            <td><?= $keyProduto ?></td>
                             <td><?= substr($produto[0]['nmProduto'], 0, 30) ?></td>
                             <td>
                                 <div id="carouselExampleIndicators" class="carousel carousel-dark slide" style="width: 140px; height: 140px" data-bs-ride="carousel" >
                                     <div class="carousel-indicators">
-                                        <?php $count = 0; foreach ($produto as $key => $imagem): ?>
-                                            <button type="button" data-bs-target="#btnActions" <?= $key===0 ? 'class="active" aria-current="true"' : ''?> data-bs-slide-to="<?= $key ?>" aria-label="<?= 'Imagem '.$key+=1 ?>"></button>
+                                        <?php $count = 0; foreach ($produto as $keyImg => $imagem): ?>
+                                            <button type="button" data-bs-target="#btnActions" <?= $keyImg===0 ? 'class="active" aria-current="true"' : ''?> data-bs-slide-to="<?= $keyImg ?>" aria-label="<?= 'Imagem '.$keyImg+=1 ?>"></button>
                                         <?php endforeach ?>
                                     </div>
                                     <div class="carousel-inner">
-                                        <?php foreach ($produto as $key => $imagem): ?>
-                                            <div class="carousel-item <?= $key===0 ? 'active' : ''?>">
+                                        <?php foreach ($produto as $keyImg => $imagem): ?>
+                                            <div class="carousel-item <?= $keyImg===0 ? 'active' : ''?>">
                                                 <img src="<?= URL.'/public/uploads/produtos/'.$imagem['nomeDoArquivo'] ?>" class="d-block w-100" alt="<?= $imagem['nomeDoArquivo'] ?>">
-                                                <button onclick="confirmDeleteImage(<?= $imagem['idImagem']?>)" class="btn btn-sm btn-light text-danger position-absolute top-0 end-0">
+                                                <button onclick="confirmDelete(<?= $imagem['idImagem']?>, true)" class="btn btn-sm btn-light text-danger position-absolute top-0 end-0">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
                                             </div>
                                         <?php endforeach ?>
                                     </div>
                                 </div>
+                            </td>
+                            <td>
+                                <ul class="list-inline">
+                                    <li class="list-inline-item">
+                                        <button onclick="confirmDelete(<?=$keyProduto?>, false)" class="btn btn-sm btn-danger">Excluir</button>
+                                    </li>
+                                </ul>
                             </td>
                         </tr> 
                     <?php endforeach ?> 
@@ -46,40 +54,46 @@
 </div>
 
 <script>
-    function confirmDeleteImage(id) {
+    function confirmDelete(id, isImagem = false) {
         swal({
             title: "Tem certeza?",
-            text: `Deseja excluir a imagem com id = ${id}`,
+            text: `Deseja excluir ${isImagem ? 'a imagem' : 'o produto'} com id = ${id}`,
             buttons: ["Cancelar", "Excluir"],
             dangerMode: true,
         })
         .then((willDelete) => {
-            if (willDelete) executeDeleteImage(id);
+            if (willDelete) {
+                if (isImagem) {
+                    executeDelete(`<?= URL.'/produtos/excluirImagem/' ?>${id}`, "<?= URL.'/produtos' ?>", 'A imagem foi excluida', 'Não foi possivel excluir a imagem') 
+                } else {
+                    executeDelete(`<?= URL.'/produtos/excluir/' ?>${id}`, "<?= URL.'/produtos' ?>", 'O produto foi excluido', 'Não foi possivel excluir o produto');
+                }
+            }
         });
     }
 
-    function executeDeleteImage(id) {
+    function executeDelete(rotaToDelete, redirectAfterDelete, msgSuccess = '', msgError = '') {
         const request = new XMLHttpRequest();
         request.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 swal({
                     title: "Sucesso",
-                    text: "A imagem foi excluida",
+                    text: `${msgSuccess}`,
                     icon: "success",
                     button: "OK",
                 }).then(() => {
-                    window.location.href = "<?= URL.'/produtos' ?>";
+                    window.location.href = `${redirectAfterDelete}`;
                 });
             } else {
                 swal({
                     title: "Erro",
-                    text: "Não foi possivel excluir a imagem",
+                    text: `${msgError}`,
                     icon: "warning",
                     button: "OK",
                 });
             }
         };
-        request.open("DELETE", `<?= URL.'/produtos/excluirImagem/'?>${id}`);
+        request.open("DELETE", `${rotaToDelete}`);
         request.send();
     }
 </script>

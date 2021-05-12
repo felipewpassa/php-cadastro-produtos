@@ -42,4 +42,15 @@ class Produto {
         $this->db->query("SELECT pro.idProduto, pro.nmProduto, pro.dsProduto, img.idImagem, img.nomeDoArquivo FROM produto AS pro LEFT JOIN imagem AS img ON pro.idProduto = img.idProduto");
         return $this->db->executeSqlWithResultsFetchGroup();
     }
+
+    public function delete($idProduto) {
+        $this->db->query("DELETE FROM imagem WHERE idProduto = :idProduto; DELETE FROM produto WHERE idProduto = :idProduto");
+        $this->db->bind("idProduto", $idProduto);
+
+        if ($this->db->executeSql()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

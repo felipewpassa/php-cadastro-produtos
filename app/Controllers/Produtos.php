@@ -70,6 +70,18 @@ class Produtos extends Controller {
         $this->view('pages/produtos/cadastrar', $data);
     }
 
+    public function excluir($id) {
+        $id = filter_var($id, FILTER_VALIDATE_INT);
+        $method = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
+        if($id && $method == 'DELETE') {
+            if ($this->produtoModel->delete($id)) {
+                var_dump(http_response_code(200));
+                return;
+            }
+        }
+        var_dump(http_response_code(404));
+    }
+
     public function excluirImagem($id) {
         $id = filter_var($id, FILTER_VALIDATE_INT);
         $method = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
