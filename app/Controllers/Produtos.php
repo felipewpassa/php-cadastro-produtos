@@ -8,7 +8,10 @@ class Produtos extends Controller {
     }
 
     public function index() {
-        $this->view('pages/produtos/index');
+        $data = [
+            'produtos' => $this->produtoModel->getAll()
+        ];
+        $this->view('pages/produtos/index', $data);
     }
 
     public function cadastrar() {

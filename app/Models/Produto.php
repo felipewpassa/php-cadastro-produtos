@@ -37,4 +37,9 @@ class Produto {
             return false;
         }
     }
+
+    public function getAll() {
+        $this->db->query("SELECT pro.idProduto, pro.nmProduto, pro.dsProduto, img.idImagem, img.nomeDoArquivo FROM produto AS pro RIGHT JOIN imagem AS img ON pro.idProduto = img.idProduto");
+        return $this->db->executeSqlWithResultsFetchGroup();
+    }
 }

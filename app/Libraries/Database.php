@@ -64,4 +64,9 @@ class Database {
     public function lastInsertId() {
         return $this->db->lastInsertId();
     }
+
+    public function executeSqlWithResultsFetchGroup() {
+        $this->executeSql();
+        return $this->statement->fetchAll(PDO::FETCH_GROUP);
+    }
 }
