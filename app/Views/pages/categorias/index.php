@@ -1,11 +1,20 @@
 <div class="container py-5">
     <div class="card">
         <div class="card-header">
-            Categorias
-            <a href="<?=URL?>/categorias/cadastrar" class="btn btn-primary">Cadastrar</a>
+            <div class="row">
+                <div class="col-4 mx-2 mt-1">
+                    <h5>Categorias</h5>
+                </div>
+                <div class="col-4">
+                    <input class="form-control" type="text" id="searchBar" onkeyup="filtroCategoria()" placeholder="Buscar descrição">
+                </div>
+                <div class="col-2">
+                     <a href="<?=URL?>/categorias/cadastrar" class="btn btn-primary">Cadastrar</a>
+                </div>
+            </div>
         </div>
         <div class="card-body">
-            <table class="table">
+            <table class="table" id="listCategoria">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -72,5 +81,24 @@
         };
         request.open("DELETE", `<?= URL.'/categorias/excluir/'?>${id}`);
         request.send();
+    }
+
+    function filtroCategoria() {
+        var searchBarText, listCategoria, tableLines, td, txtValue;
+        searchBarText = document.getElementById("searchBar").value.toUpperCase();
+        listCategoria = document.getElementById("listCategoria");
+        tableLines = listCategoria.getElementsByTagName("tr");
+
+        for (var line = 0; line < tableLines.length; line++) {
+            td = tableLines[line].getElementsByTagName("td")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(searchBarText) > -1) {
+                    tableLines[line].style.display = "";
+                } else {
+                    tableLines[line].style.display = "none";
+                }
+            }
+        }
     }
 </script>
