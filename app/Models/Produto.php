@@ -53,4 +53,38 @@ class Produto {
             return false;
         }
     }
+
+    public function getById($id) {
+        $this->db->query("SELECT pro.idProduto, pro.nmProduto, pro.idCategoria, cat.dsCategoria, pro.dsProduto 
+            FROM produto AS pro 
+            INNER JOIN categoria as cat
+            ON cat.idCategoria = pro.idCategoria 
+            WHERE pro.idProduto = :idProduto");
+        $this->db->bind("idProduto", $id);
+        return $this->db->executeSqlWithOneResult();
+    }
+
+    public function update($dados) {
+        $this->db->query("UPDATE produto SET dsProduto = :dsProduto, idCategoria = :idCategoria WHERE idProduto = :idProduto");
+        $this->db->bind("dsProduto", $dados['dsProduto']);
+        $this->db->bind("idCategoria", $dados['idCategoria']);
+        $this->db->bind("idProduto", $dados['idProduto']);
+
+        if ($this->db->executeSql()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function isExists($nmProduto) {
+        $this->db->query("SELECT idProduto, nmProduto, dsProduto FROM produto where nmProduto = :nmProduto");
+        $this->db->bind("nmProduto", $nmProduto);
+
+        if ($this->db->executeSqlWithResults()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

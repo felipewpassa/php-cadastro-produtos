@@ -41,6 +41,9 @@
                             <td>
                                 <ul class="list-inline">
                                     <li class="list-inline-item">
+                                        <a href="<?= URL.'/produtos/editar/'.$keyProduto ?>" class="btn btn-sm btn-warning">Editar</a>
+                                    </li>
+                                    <li class="list-inline-item">
                                         <button onclick="confirmDelete(<?=$keyProduto?>, false)" class="btn btn-sm btn-danger">Excluir</button>
                                     </li>
                                 </ul>

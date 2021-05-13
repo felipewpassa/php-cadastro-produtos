@@ -18,7 +18,6 @@ class Produtos extends Controller {
     public function cadastrar() {
         $form = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
         $categorias = $this->categoriaModel->getAll();
-        $imagesMoved = array();
         if (isset($form)) {
             $data = [
                 'nmProduto' => trim($form['nmProduto']),
@@ -30,32 +29,33 @@ class Produtos extends Controller {
             if (in_array("", $form)) {
                 if (empty($form['nmProduto'])) $data['nmProdutoErro'] = "Preencha o nome do produto";
                 if (empty($form['dsProduto'])) $data['dsProdutoErro'] = "Preencha a descrição do produto";
-                if (empty($form['idCategoria'])) $data['idCategoriaErro'] = "Selecione uma categoria";
             } else {
-                $upload = new Upload();
-                $arrayFileUpload = $upload->reArrayFiles($_FILES['image']);
-                foreach($arrayFileUpload as $key => $fileToUpload) {
-                    $upload->imagem($fileToUpload);
-                    if($upload->getResult()) {
-                        array_push($imagesMoved, $upload->getResult());
+                if (!$this->produtoModel->isExists($data['nmProduto'])) {
+                    if ($this->produtoModel->save($data)) {
+                        $lastInsertId = (int) $this->produtoModel->getLastInsertId();
+                        $upload = new Upload();
+                        $arrayFileUpload = array_key_exists('image', $_FILES) ? $upload->reArrayFiles($_FILES['image']) : [];
+                        foreach($arrayFileUpload as $key => $fileToUpload) {
+                            $upload->imagem($fileToUpload);
+                            if($upload->getResult()) {
+                                $dataImage = [
+                                    'dsImagem' => trim($form['dsImagem'][$key]),
+                                    'nomeDoArquivo' => $upload->getResult(),
+                                    'idProduto' => $lastInsertId
+                                ];
+                                if ($dataImage['nomeDoArquivo']) {
+                                    $this->produtoModel->saveImagemProduto($dataImage);
+                                }
+                            } else {
+                                echo $upload->getError();
+                            }
+                        }
+                        Session::alert('Produto', 'Produto cadastrado com sucesso');
                     } else {
-                        echo $upload->getError();
+                        die("Erro ao salvar a produto");
                     }
-                }
-
-                if ($this->produtoModel->save($data)) {
-                    $lastInsertId = (int) $this->produtoModel->getLastInsertId();
-                    foreach($imagesMoved as $imageName) {
-                        $dataImage = [
-                            'dsImagem' => 'teste',
-                            'nomeDoArquivo' => $imageName,
-                            'idProduto' => $lastInsertId
-                        ];
-                        $this->produtoModel->saveImagemProduto($dataImage);
-                    }
-                    Session::alert('Produto', 'Produto cadastrado com sucesso');
                 } else {
-                    die("Erro ao salvar a produto");
+                    Session::alert('Produto', 'Produto já está cadastrado', 'alert alert-danger alert-dismissible fade show');
                 }
             }
 
@@ -63,7 +63,7 @@ class Produtos extends Controller {
             $data = [
                 'nmProduto' => '',
                 'dsProduto' => '',
-                'idCategoria' => '',
+                'idCategoria' => 0,
                 'categorias' => $categorias
             ];
         }
@@ -92,5 +92,66 @@ class Produtos extends Controller {
             }
         }
         var_dump(http_response_code(404));
+    }
+
+    public function editar($id) {
+        $form = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+        $categorias = $this->categoriaModel->getAll();
+        $produto = $this->produtoModel->getById($id);
+        $imagens = $this->imagemModel->getByIdProduto($id);
+        if (isset($form)) {
+            $data = [
+                'idProduto' => $id,
+                'nmProduto' => trim($form['nmProduto']),
+                'dsProduto' => trim($form['dsProduto']),
+                'idCategoria' => trim($form['idCategoria']),
+                'imagens' => $imagens[0]->idImagem  !== null ? $imagens : [],
+                'categorias' => $categorias,
+                'nmProdutoErro' => '',
+                'dsProdutoErro' => ''
+            ];
+            var_dump($form);
+            if (in_array("", $form)) {
+                if (empty($form['nmProduto'])) $data['nmProdutoErro'] = "Preencha o nome do produto";
+                if (empty($form['dsProduto'])) $data['dsProdutoErro'] = "Preencha a descrição do produto";
+            } else {
+                if ($this->produtoModel->update($data)) {
+                    $upload = new Upload();
+                    if (array_key_exists('image', $_FILES)) {
+                        $arrayFileUpload = $upload->reArrayFiles($_FILES['image']);
+                        foreach($arrayFileUpload as $key => $fileToUpload) {
+                            $upload->imagem($fileToUpload);
+                            if($upload->getResult()) {
+                                $dataImage = [
+                                    'dsImagem' => trim($form['dsImagem'][$key]),
+                                    'nomeDoArquivo' => $upload->getResult(),
+                                    'idProduto' => $id
+                                ];
+                                if ($dataImage['nomeDoArquivo']) {
+                                    $this->produtoModel->saveImagemProduto($dataImage);
+                                }
+                            }
+                        }
+                    }
+                    Session::alert('Produto', 'Produto editado com sucesso');
+                } else {
+                    die("Erro ao salvar a produto");
+                }
+                
+            }
+        } else {
+            
+            $data = [
+                'idProduto' => $produto->idProduto,
+                'nmProduto' => $produto->nmProduto,
+                'dsProduto' => $produto->dsProduto,
+                'idCategoria' => $produto->idCategoria,
+                'imagens' => $imagens[0]->idImagem  !== null ? $imagens : [],
+                'categorias' => $categorias,
+                'nmProdutoErro' => '',
+                'dsProdutoErro' => ''
+            ];
+        }
+        $this->view('pages/produtos/editar', $data);
     }
 }

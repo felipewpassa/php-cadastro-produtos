@@ -22,7 +22,7 @@
                     <option value="0" selected>Selecione uma categoria</option>
                     <?php foreach($data['categorias'] as $categoria): ?>
                         <option value="<?= $categoria->idCategoria ?>">
-                            <?= $categoria->idCategoria.' - '.$categoria->dsCategoria ?>
+                            <?= $categoria->dsCategoria ?>
                         </option>
                     <?php endforeach ?>
                 </select>
@@ -51,8 +51,8 @@
     $(document).ready(function() {
         var html = `
         <tr>
-            <td><input class="form-control" type="text" name="name[]"></td>
-            <td><input class="form-control" type="file" name="image[]"></td>
+            <td><input class="form-control" type="text" name="dsImagem[]"></td>
+            <td><input class="form-control" type="file" name="image[]" accept="image/jpeg, image/png"></td>
             <td><input class="btn btn-danger" type="button" name="remove" id="remove" value="Remover"></td>
         </tr>`;
         $("#add").click(function() {
