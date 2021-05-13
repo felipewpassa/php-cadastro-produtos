@@ -40,7 +40,7 @@
                             <th>Imagem</th>
                             <th>
                                 <div class="input-group input-group-sm">
-                                    <input class="btn btn-primary" type="button" name="add" id="add" value="Adicionar">
+                                    <input class="btn btn-secondary" type="button" name="add" id="add" value="Adicionar">
                                 </div>
                             </th>
                         </tr>
@@ -68,8 +68,9 @@
 
                     </table>
                 </div>
-
-                <input type="submit" value="Salvar" class="btn btn-primary mt-5">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <input type="submit" value="Salvar" class="btn btn-primary">
+                </div>
             </form>
 
         </div>
