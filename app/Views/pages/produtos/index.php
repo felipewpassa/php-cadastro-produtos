@@ -1,8 +1,14 @@
 <div class="container py-4">
     <div class="card">
         <div class="card-header">
-            Produtos
-            <a href="<?=URL?>/produtos/cadastrar" class="btn btn-primary">Cadastrar</a>
+            <div class="row">
+                <div class="col-10 pt-2 ml-2">
+                    <h5>Produtos</h5>
+                </div>
+                <div class="col-2">
+                    <a href="<?=URL?>/produtos/cadastrar" class="btn btn-primary">Cadastrar</a>
+                </div>
+            </div>
         </div>
         <div class="card-body">
             <table id="listProdutos" class="table table-bordered">
