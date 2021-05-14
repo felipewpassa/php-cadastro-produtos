@@ -30,35 +30,38 @@ class Produtos extends Controller {
                 if (empty($form['nmProduto'])) $data['nmProdutoErro'] = "Preencha o nome do produto";
                 if (empty($form['dsProduto'])) $data['dsProdutoErro'] = "Preencha a descrição do produto";
             } else {
-                if (!$this->produtoModel->isExists($data['nmProduto'])) {
-                    if ($this->produtoModel->save($data)) {
-                        $lastInsertId = (int) $this->produtoModel->getLastInsertId();
-                        $upload = new Upload();
-                        $arrayFileUpload = array_key_exists('image', $_FILES) ? $upload->reArrayFiles($_FILES['image']) : [];
-                        foreach($arrayFileUpload as $key => $fileToUpload) {
-                            $upload->imagem($fileToUpload);
-                            if($upload->getResult()) {
-                                $dataImage = [
-                                    'dsImagem' => trim($form['dsImagem'][$key]),
-                                    'nomeDoArquivo' => $upload->getResult(),
-                                    'idProduto' => $lastInsertId
-                                ];
-                                if ($dataImage['nomeDoArquivo']) {
-                                    $this->produtoModel->saveImagemProduto($dataImage);
-                                }
-                            } else {
-                                echo $upload->getError();
-                            }
-                        }
-                        Session::alert('Produto', 'Produto cadastrado com sucesso');
-                    } else {
-                        die("Erro ao salvar a produto");
-                    }
+                if(Validate::alphaNumeric($form['nmProduto'])) { 
+                    $data['nmProdutoErro'] = "Deve conter apenas [A-Za-z0-9]";
                 } else {
-                    Session::alert('Produto', 'Produto já está cadastrado', 'alert alert-danger alert-dismissible fade show');
+                    if (!$this->produtoModel->isExists($data['nmProduto'])) {
+                        if ($this->produtoModel->save($data)) {
+                            $lastInsertId = (int) $this->produtoModel->getLastInsertId();
+                            $upload = new Upload();
+                            $arrayFileUpload = array_key_exists('image', $_FILES) ? $upload->reArrayFiles($_FILES['image']) : [];
+                            foreach($arrayFileUpload as $key => $fileToUpload) {
+                                $upload->imagem($fileToUpload);
+                                if($upload->getResult()) {
+                                    $dataImage = [
+                                        'dsImagem' => trim($form['dsImagem'][$key]),
+                                        'nomeDoArquivo' => $upload->getResult(),
+                                        'idProduto' => $lastInsertId
+                                    ];
+                                    if ($dataImage['nomeDoArquivo']) {
+                                        $this->produtoModel->saveImagemProduto($dataImage);
+                                    }
+                                } else {
+                                    echo $upload->getError();
+                                }
+                            }
+                            Session::alert('Produto', 'Produto cadastrado com sucesso');
+                        } else {
+                            die("Erro ao salvar a produto");
+                        }
+                    } else {
+                        Session::alert('Produto', 'Produto já está cadastrado', 'alert alert-danger alert-dismissible fade show');
+                    }
                 }
             }
-
         } else {
             $data = [
                 'nmProduto' => '',
