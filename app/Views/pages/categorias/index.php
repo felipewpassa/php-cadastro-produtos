@@ -2,11 +2,8 @@
     <div class="card">
         <div class="card-header">
             <div class="row">
-                <div class="col-4 mx-2 mt-1">
+                <div class="col-10 pt-2 ml-2">
                     <h5>Categorias</h5>
-                </div>
-                <div class="col-4">
-                    <input class="form-control" type="text" id="searchBar" onkeyup="filtroCategoria()" placeholder="Buscar descrição">
                 </div>
                 <div class="col-2">
                      <a href="<?=URL?>/categorias/cadastrar" class="btn btn-primary">Cadastrar</a>
@@ -90,22 +87,23 @@
         request.send();
     }
 
-    function filtroCategoria() {
-        var searchBarText, listCategoria, tableLines, td, txtValue;
-        searchBarText = document.getElementById("searchBar").value.toUpperCase();
-        listCategoria = document.getElementById("listCategoria");
-        tableLines = listCategoria.getElementsByTagName("tr");
-
-        for (var line = 0; line < tableLines.length; line++) {
-            td = tableLines[line].getElementsByTagName("td")[1];
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(searchBarText) > -1) {
-                    tableLines[line].style.display = "";
-                } else {
-                    tableLines[line].style.display = "none";
-                }
-            }
-        }
-    }
+    $(document).ready(function() {
+        $('#listCategoria').DataTable({
+            "language": {
+                "lengthMenu": "Exibindo _MENU_ por página",
+                "zeroRecords": "Nenhum registro encontrado",
+                "info": "Exibindo _PAGE_ de _PAGES_ páginas",
+                "infoEmpty": "Não há registros cadastrados",
+                "infoFiltered": "(filtrado de _MAX_ registros)",
+                "search": "Pesquisar",
+                "paginate": {
+                    "next": "Próximo",
+                    "previous": "Anterior",
+                    "first": "Primeiro",
+                    "last": "Último"
+                },
+            },
+            "lengthMenu": [[7, 25, 50, -1], [7, 25, 50, "todos"]]
+        });
+    });
 </script>
