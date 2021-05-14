@@ -5,7 +5,7 @@
             <a href="<?=URL?>/produtos/cadastrar" class="btn btn-primary">Cadastrar</a>
         </div>
         <div class="card-body">
-            <table class="table">
+            <table id="listProdutos" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -16,7 +16,7 @@
                 </thead>
                 <tbody>
                     <?php foreach ($data['produtos'] as $keyProduto => $produto): ?>
-                        <tr class="<?= $keyProduto%2!=0 ? 'table-light' : '' ?>">
+                        <tr>
                             <td><?= $keyProduto ?></td>
                             <td><?= substr($produto[0]['nmProduto'], 0, 30) ?></td>
                             <td>
@@ -99,4 +99,24 @@
         request.open("DELETE", `${rotaToDelete}`);
         request.send();
     }
+
+    $(document).ready(function() {
+        $('#listProdutos').DataTable({
+            "language": {
+                "lengthMenu": "Exibindo _MENU_ por página",
+                "zeroRecords": "Nenhum registro encontrado",
+                "info": "Exibindo _PAGE_ de _PAGES_ páginas",
+                "infoEmpty": "Não há registros cadastrados",
+                "infoFiltered": "(filtrado de _MAX_ registros)",
+                "search": "Pesquisar",
+                "paginate": {
+                    "next": "Próximo",
+                    "previous": "Anterior",
+                    "first": "Primeiro",
+                    "last": "Último"
+                },
+            },
+            "lengthMenu": [[7, 25, 50, -1], [7, 25, 50, "todos"]]
+        });
+    });
 </script>
