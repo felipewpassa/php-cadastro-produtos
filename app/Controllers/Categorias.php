@@ -80,12 +80,16 @@ class Categorias extends Controller {
         $id = filter_var($id, FILTER_VALIDATE_INT);
         $method = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
         if($id && $method == 'DELETE') {
-            var_dump($this->categoriaModel->delete($id));
-            if ($this->categoriaModel->delete($id)) {
-                var_dump(http_response_code(200));
+            try {
+                if ($this->categoriaModel->delete($id)) {
+                    http_response_code(200);
+                    return;
+                }
+            } catch (Exception $error) {
+                http_response_code(500);
                 return;
             }
         }
-        var_dump(http_response_code(404));
+        http_response_code(404);
     }
 }
