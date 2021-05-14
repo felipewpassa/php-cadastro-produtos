@@ -11,13 +11,13 @@ class Database {
     private $statement;
 
     public function __construct() {
-        $strConnection = 'mysql:host='.$this->host.';port='.$this->port.';dbname='.$this->dbname;
+        $strConnection = 'mysql:host='.DB_HOST.';port='.DB_PORT.';dbname='.DB_NAME;
         $options = [
             PDO::ATTR_PERSISTENT => true,
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         ];
         try {
-            $this->db = new PDO($strConnection, $this->username, $this->password, $options);
+            $this->db = new PDO($strConnection, DB_USER, DB_PASS, $options);
         } catch (PDOException $e) {
             print "Error!: " . $e->getMessage() . "<br/>";
             die();
