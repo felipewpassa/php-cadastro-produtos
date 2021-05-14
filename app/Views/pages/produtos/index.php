@@ -40,7 +40,7 @@
                                     <div class="carousel-inner">
                                         <?php foreach ($produto as $keyImg => $imagem): ?>
                                             <div class="carousel-item <?= $keyImg===0 ? 'active' : ''?>">
-                                                <img src="<?= URL.'/public/uploads/produtos/'.$imagem['nomeDoArquivo'] ?>" class="d-block w-100" alt="<?= $imagem['nomeDoArquivo'] ?>">
+                                                <img src="<?= URL.'/public/uploads/'.$imagem['nomeDoArquivo'] ?>" class="d-block w-100" alt="<?= $imagem['nomeDoArquivo'] ?>">
                                                 <button onclick="confirmDelete(<?= $imagem['idImagem']?>, true)" class="btn btn-sm btn-light text-danger position-absolute top-0 end-0">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
