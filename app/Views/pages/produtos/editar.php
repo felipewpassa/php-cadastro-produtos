@@ -27,7 +27,7 @@
                     <select id="idCategoria" name="idCategoria" class="form-select <?= $data['idCategoriaErro'] ? 'is-invalid' : '' ?>">
                         <?php foreach($data['categorias'] as $categoria): ?>
                             <option value="<?= $categoria->idCategoria ?>" <?= $categoria->idCategoria === $data['idCategoria'] ? 'selected' : '' ?>>
-                                <?= $categoria->idCategoria.' - '.$categoria->dsCategoria ?>
+                                <?= $categoria->dsCategoria ?>
                             </option>
                         <?php endforeach ?>
                     </select>
