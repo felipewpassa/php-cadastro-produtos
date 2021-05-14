@@ -1,4 +1,4 @@
-<footer class="fixed-bottom pt-2 pb-2 bg-light">
+<footer class="p-3 bg-light mt-2">
     <div class="container text-center">
         <small>
             Felipe Passa &copy; 2021 - <?= date('Y') ?>
