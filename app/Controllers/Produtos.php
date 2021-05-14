@@ -78,11 +78,11 @@ class Produtos extends Controller {
         $method = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
         if($id && $method == 'DELETE') {
             if ($this->produtoModel->delete($id)) {
-                var_dump(http_response_code(200));
+                http_response_code(200);
                 return;
             }
         }
-        var_dump(http_response_code(404));
+        http_response_code(404);
     }
 
     public function excluirImagem($id) {
@@ -90,11 +90,11 @@ class Produtos extends Controller {
         $method = filter_input(INPUT_SERVER, 'REQUEST_METHOD', FILTER_SANITIZE_STRING);
         if($id && $method == 'DELETE') {
             if ($this->imagemModel->delete($id)) {
-                var_dump(http_response_code(200));
+                http_response_code(200);
                 return;
             }
         }
-        var_dump(http_response_code(404));
+        http_response_code(404);
     }
 
     public function editar($id) {
@@ -113,7 +113,6 @@ class Produtos extends Controller {
                 'nmProdutoErro' => '',
                 'dsProdutoErro' => ''
             ];
-            var_dump($form);
             if (in_array("", $form)) {
                 if (empty($form['nmProduto'])) $data['nmProdutoErro'] = "Preencha o nome do produto";
                 if (empty($form['dsProduto'])) $data['dsProdutoErro'] = "Preencha a descrição do produto";
