@@ -13,7 +13,7 @@ class Upload {
 
     public function __construct($directory = null) {
 
-        $this->directory = $directory ?? 'uploads'.DIRECTORY_SEPARATOR.'produtos';
+        $this->directory = $directory ?? 'uploads';
 
         if (!file_exists($this->directory) && !is_dir($this->directory)) {
             mkdir($this->directory, 0777);        
