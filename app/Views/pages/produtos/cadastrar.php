@@ -8,7 +8,7 @@
             <form name="categoria" method="POST" action="<?=URL?>/produtos/cadastrar" enctype="multipart/form-data">
                 <div class="mb-2">
                     <label for="nmProduto" class="form-label">*Nome:</label>
-                    <input id="nmProduto" name="nmProduto" type="text" class="form-control <?= $data['nmProdutoErro'] ? 'is-invalid' : '' ?>">
+                    <input id="nmProduto" name="nmProduto" maxlength="120" type="text" class="form-control <?= $data['nmProdutoErro'] ? 'is-invalid' : '' ?>">
                     <div class="invalid-feedback">
                         <?= $data['nmProdutoErro'] ?>
                     </div>
@@ -16,7 +16,7 @@
 
                 <div class="mb-2">
                     <label for="dsProduto" class="form-label">*Descrição:</label>
-                    <input id="dsProduto" name="dsProduto" type="text" class="form-control <?= $data['dsProdutoErro'] ? 'is-invalid' : '' ?>">
+                    <input id="dsProduto" name="dsProduto" maxlength="255" type="text" class="form-control <?= $data['dsProdutoErro'] ? 'is-invalid' : '' ?>">
                     <div class="invalid-feedback">
                         <?= $data['dsProdutoErro'] ?>
                     </div>
@@ -62,7 +62,7 @@
         <tr>
             <td>
                 <div class="input-group input-group-sm">
-                    <input class="form-control" type="text" name="dsImagem[]">
+                    <input class="form-control" maxlength="255" type="text" name="dsImagem[]">
                 </div>
             </td>
             <td>
