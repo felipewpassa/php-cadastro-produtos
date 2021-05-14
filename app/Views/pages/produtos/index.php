@@ -28,8 +28,13 @@
                             <td>
                                 <div id="carouselExampleIndicators" class="carousel carousel-dark slide" style="width: 140px; height: 140px" data-bs-ride="carousel" >
                                     <div class="carousel-indicators">
-                                        <?php $count = 0; foreach ($produto as $keyImg => $imagem): ?>
-                                            <button type="button" data-bs-target="#btnActions" <?= $keyImg===0 ? 'class="active" aria-current="true"' : ''?> data-bs-slide-to="<?= $keyImg ?>" aria-label="<?= 'Imagem '.$keyImg+=1 ?>"></button>
+                                        <?php foreach ($produto as $keyImg => $imagem): ?>
+                                            <?php if ($imagem['idImagem']): ?>
+                                                <button type="button" data-bs-target="#btnActions" <?= $keyImg===0 ? 'class="active" aria-current="true"' : ''?> data-bs-slide-to="<?= $keyImg ?>" aria-label="<?= 'Imagem '.$keyImg+=1 ?>"></button>
+                                            <?php endif ?>
+                                            <?php if (!$imagem['idImagem']): ?>
+                                                Sem imagens
+                                            <?php endif ?>
                                         <?php endforeach ?>
                                     </div>
                                     <div class="carousel-inner">
