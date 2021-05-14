@@ -1,5 +1,5 @@
 # EstoqueMax
-## Sistema para gerenciamento de estoque
+Sistema para gerenciameto de estoque de produtos e categorias
 
 ## Tecnologias
 Para o desenvolvimento do sistema foi utilizado as tecnologias:
