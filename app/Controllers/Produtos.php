@@ -29,9 +29,10 @@ class Produtos extends Controller {
             if (in_array("", $form)) {
                 if (empty($form['nmProduto'])) $data['nmProdutoErro'] = "Preencha o nome do produto";
                 if (empty($form['dsProduto'])) $data['dsProdutoErro'] = "Preencha a descrição do produto";
+                if (empty($form['idCategoria'])) $data['idCategoriaErro'] = "Selecione a categoria do produto";
             } else {
                 if(Validate::alphaNumeric($form['nmProduto'])) { 
-                    $data['nmProdutoErro'] = "Deve conter apenas [A-Za-z0-9]";
+                    $data['nmProdutoErro'] = "O nome deve conter apenas [A-Za-z0-9]";
                 } else {
                     if (!$this->produtoModel->isExists($data['nmProduto'])) {
                         if ($this->produtoModel->save($data)) {
@@ -135,7 +136,8 @@ class Produtos extends Controller {
                             }
                         }
                     }
-                    Session::alert('Produto', 'Produto editado com sucesso');
+                    //Session::alert('Produto', 'Produto editado com sucesso');
+                    URL::redirect('produtos/editar/'.$id);
                 } else {
                     die("Erro ao salvar a produto");
                 }
