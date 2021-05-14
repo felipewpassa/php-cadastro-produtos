@@ -36,7 +36,7 @@
                 <div class="mt-4">
                     <table class="table table-bordered" id="table_field">
                         <tr>
-                            <th>Descricao</th>
+                            <th>Descrição</th>
                             <th>Imagem</th>
                             <th>
                                 <div class="input-group input-group-sm">
@@ -58,7 +58,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <button class="btn btn-sm btn-danger" type="button" name="excluir" id="excluir">
+                                    <button class="btn btn-sm btn-danger" type="button" name="excluir" id="excluir" onclick="confirmDelete(<?=$imagem->idImagem?>,true)">
                                         <i class="bi bi-trash"></i>
                                         Excluir
                                     </button>
@@ -108,3 +108,6 @@
         })
     });
 </script>
+<?php
+include '../app/Views/partials/sweetAlert.php';
+?>
