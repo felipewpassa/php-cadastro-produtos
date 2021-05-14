@@ -70,9 +70,16 @@
                 }).then(() => {
                     window.location.href = "<?= URL.'/categorias' ?>";
                 });
-            } else {
+            } else if(this.status == 500) {
                 swal({
                     title: "Erro",
+                    text: "Não foi possível excluir a categoria, verifique se há produtos associados a ela e tente novamente",
+                    icon: "warning",
+                    button: "OK",
+                });
+            } else {
+                swal({
+                    title: "Falha",
                     text: "Não foi possivel excluir a categoria",
                     icon: "warning",
                     button: "OK",
