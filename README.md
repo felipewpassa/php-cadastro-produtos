@@ -1,4 +1,3 @@
-# EstoqueMax
 Sistema para gerenciamento de estoque de produtos e categorias
 
 ## Tecnologias
