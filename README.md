@@ -1,6 +1,6 @@
-Sistema para gerenciamento de estoque de produtos e categorias
+# Cadastros de produtos com imagens e categorias
 
-Teste técnico para vaga de programador PHP na Astrus Digital
+Teste técnico para vaga de programador PHP
 
 ## Tecnologias
 Para o desenvolvimento do sistema foi utilizado as tecnologias:
@@ -33,3 +33,20 @@ DB_NAME (nome do banco de dados)                default: dbcadastroprodutos
 ```
 
 - Por fim, só executar o servidor Apache e acessar no host especificado ou http://localhost
+
+## Imagens
+
+### Página inicial
+![Print](https://github.com/felipewpassa/php-cadastro-produtos/blob/ad54e889500ba28ddb561290d4f55ae96f21eb44/readme/home.png)
+
+### Listagem de categorias
+![Print](https://github.com/felipewpassa/php-cadastro-produtos/blob/ad54e889500ba28ddb561290d4f55ae96f21eb44/readme/categorias.png)
+
+### Confirmação de exclusão
+![Print](https://github.com/felipewpassa/php-cadastro-produtos/blob/ad54e889500ba28ddb561290d4f55ae96f21eb44/readme/categorias-excluir.png)
+
+### Listagem de produtos
+![Print](https://github.com/felipewpassa/php-cadastro-produtos/blob/ad54e889500ba28ddb561290d4f55ae96f21eb44/readme/produtos.png)
+
+### Formulário de edição de produtos
+![Print](https://github.com/felipewpassa/php-cadastro-produtos/blob/ad54e889500ba28ddb561290d4f55ae96f21eb44/readme/produtos-editar.png)
